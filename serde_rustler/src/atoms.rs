@@ -37,9 +37,8 @@ pub fn str_to_term<'a>(env: &Env<'a>, string: &str) -> Result<Term<'a>, Error> {
     } else if string == "Err" {
         Ok(error().encode(*env))
     } else {
-        match Atom::try_from_bytes(*env, string.as_bytes()) {
-            Ok(Some(term)) => Ok(term.encode(*env)),
-            Ok(None) => Err(Error::InvalidStringable),
+        match Atom::from_bytes(*env, string.as_bytes()) {
+            Ok(term) => Ok(term.encode(*env)),
             _ => Err(Error::InvalidStringable),
         }
     }
